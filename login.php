@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $conn->real_escape_string($usuario);
 
     // Query para seleccionar el usuario
-    $sql = "SELECT * FROM usuario WHERE usuario = ?";
+    $sql = "SELECT * FROM registro WHERE usuario = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $usuario);
     $stmt->execute();
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
 
         // Verificar la contraseña ingresada directamente sin hash
-        if ($password == $row['password']) {
+        if (password_verify($password, $row['contrasena'])) {
             // Contraseña correcta, iniciar sesión
             session_start();
             $_SESSION['usuario'] = $usuario;

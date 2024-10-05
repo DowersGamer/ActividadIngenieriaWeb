@@ -25,14 +25,14 @@ $password = $_POST['password'];
 // Asegurarse de que no haya inyección SQL
 $nombre = $conn->real_escape_string($nombre);
 $apellido = $conn->real_escape_string($apellido);
-$edad = (int)$edad; // Asegurarse de que sea un número
+$edad = (int)$conn->real_escape_string($edad); // Asegurarse de que sea un número
 $ciudad = $conn->real_escape_string($ciudad);
 $celular = $conn->real_escape_string($celular);
 $usuario = $conn->real_escape_string($usuario);
-$password = password_hash($conn->real_escape_string($password), PASSWORD_DEFAULT); // Encriptar la contraseña
+$password = password_hash($conn->real_escape_string($password), PASSWORD_BCRYPT); // Encriptar la contraseña
 
 // Query para insertar los datos en la tabla
-$sql = "INSERT INTO registro (nombre, apellido, edad, ciudad, celular, usuario, password) VALUES ('$nombre', '$apellido', $edad, '$ciudad', '$celular', '$usuario', '$password')";
+$sql = "INSERT INTO registro (nombre, apellido, edad, ciudad, celular, usuario, contrasena) VALUES ('$nombre', '$apellido', $edad, '$ciudad', '$celular', '$usuario', '$password')";
 
 if ($conn->query($sql) === TRUE) {
     echo "Registro exitoso!";
